@@ -56,7 +56,7 @@ class SMGenerator():
         content += "\n\n\t\tinitial_state = '"+initial_state+"'\n"
 
         for state in states:
-            content += "\n\t\tstate('"+state["state"]
+            content += "\n\tstate('"+state["state"]
             if state["enter"] != "":
                 content += "', enter='"+state["enter"]
             if state["exit"] != "":
@@ -65,7 +65,7 @@ class SMGenerator():
         content += "\n"
 
         for transition in transitions:
-            content += "\n\t\ttransition(from_='"+transition["from"]+"', event='"+transition["event"]+"', to='"+transition["to"]
+            content += "\n\ttransition(from_='"+transition["from"]+"', event='"+transition["event"]+"', to='"+transition["to"]
             if transition["guard"] != "":
                 content += "', guard='"+transition["guard"]
             content +="')"
