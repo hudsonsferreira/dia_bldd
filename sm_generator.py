@@ -9,6 +9,8 @@ class SMGenerator():
 
     def load_data(self, data):
         self.data = data
+        if self.data == None:
+            raise DataNotFoundException("You should load some data!")
     
     def _get_states(self):
         states = []
@@ -45,31 +47,38 @@ class SMGenerator():
                     if source.type.name == "UML - State Term" and target.type.name == "UML - State":
                         return target.properties["text"].value.text.strip()
 
-    def _generate_statemachine(self):
-        if self.data == None:
-            raise DataNotFoundException("You should load some data!")
-        content = self.header
+    def _generate_state(self):
         initial_state = self._get_initial_state()
         states = self._get_states()
-        transitions = self._get_transitions()
-
-        content += "\n\n\tinitial_state = '"+initial_state+"'\n"
+        state_content = ""
+        state_content += "\n\n\tinitial_state = '"+initial_state+"'\n"
 
         for state in states:
-            content += "\n\tstate('"+state["state"]
+            state_content += "\n\tstate('"+state["state"]
             if state["enter"] != "":
-                content += "', enter='"+state["enter"]
+                state_content += "', enter='"+state["enter"]
             if state["exit"] != "":
-                content += "', exit='"+state["exit"]
-            content +="')"
-        content += "\n"
+                state_content += "', exit='"+state["exit"]
+            state_content +="')"
+        state_content += "\n"
+        return state_content
 
+    def _generate_transition(self):
+        transitions = self._get_transitions()
+        transition_content = ""
+        
         for transition in transitions:
-            content += "\n\ttransition(from_='"+transition["from"]+"', event='"+transition["event"]+"', to='"+transition["to"]
+            transition_content += "\n\ttransition(from_='"+transition["from"]+"', event='"+transition["event"]+"', to='"+transition["to"]
             if transition["guard"] != "":
-                content += "', guard='"+transition["guard"]
-            content +="')"
+                transition_content += "', guard='"+transition["guard"]
+            transition_content +="')"
+        return transition_content
 
+
+    def _generate_statemachine(self):
+        content = self.header
+        content += self._generate_state()
+        content += self._generate_transition()
         return content
 
     def create_fluidity(self):
