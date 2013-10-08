@@ -33,7 +33,8 @@ class SMGenerator():
                     if source.type.name == "UML - State" and target.type.name == "UML - State":
                         transitions.append({'from':source.properties["text"].value.text.strip(), 
                                             'event':obj.properties["trigger"].value, 
-                                            'to':target.properties["text"].value.text.strip(), 
+                                            'to':target.properties["text"].value.text.strip(),
+                                            'action':obj.properties["action"].value, 
                                             'guard':obj.properties["guard"].value
                                            })           
         return transitions              
@@ -71,6 +72,8 @@ class SMGenerator():
             transition_content += "\n\ttransition(from_='"+transition["from"]+"', event='"+transition["event"]+"', to='"+transition["to"]
             if transition["guard"] != "":
                 transition_content += "', guard='"+transition["guard"]
+            if transition["action"] != "":
+                transition_content += "', action='"+transition["action"]
             transition_content +="')"
         return transition_content
 
