@@ -15,7 +15,10 @@ class SMGenerator():
 		for layer in self.data.layers:
 			for obj in layer.objects:
 				if obj.type.name == "UML - State":
-					states.append(obj.properties["text"].value.text.strip())
+					states.append({'state':obj.properties["text"].value.text.strip(),
+								   'enter':obj.properties["entry_action"].value,
+								   'exit':obj.properties["exit_action"].value
+						          })
 		return states
 
 	def _get_transitions(self):
@@ -29,7 +32,8 @@ class SMGenerator():
 						transitions.append({'from':source.properties["text"].value.text.strip(), 
 										    'event':obj.properties["trigger"].value, 
 										    'to':target.properties["text"].value.text.strip(), 
-										    'guard':obj.properties["guard"].value})			
+										    'guard':obj.properties["guard"].value
+										   })			
 		return transitions				
 
 	def _get_initial_state(self):
@@ -52,8 +56,12 @@ class SMGenerator():
 		content += "\n\n\t\tinitial_state = '"+initial_state+"'\n"
 
 		for state in states:
-			content += "\n\t\tstate('"+state+"')"
-
+			content += "\n\t\tstate('"+state["state"]
+			if state["enter"] != "":
+				content += "', enter='"+state["enter"]
+			if state["exit"] != "":
+				content += "', exit='"+state["exit"]
+			content +="')"
 		content += "\n"
 
 		for transition in transitions:
