@@ -53,7 +53,7 @@ class SMGenerator():
         states = self._get_states()
         transitions = self._get_transitions()
 
-        content += "\n\n\t\tinitial_state = '"+initial_state+"'\n"
+        content += "\n\n\tinitial_state = '"+initial_state+"'\n"
 
         for state in states:
             content += "\n\tstate('"+state["state"]
