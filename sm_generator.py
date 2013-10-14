@@ -1,6 +1,3 @@
-class DataNotFoundException(Exception):
-    pass
-
 class SMGenerator():
 
     def __init__(self):
@@ -10,7 +7,7 @@ class SMGenerator():
     def load_data(self, data):
         self.data = data
         if self.data == None:
-            raise DataNotFoundException("You should load some data!")
+            raise ValueError("Invalid data!")
     
     def _get_states(self):
         states = []
