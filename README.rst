@@ -12,12 +12,12 @@ Then, you must get a Fluidity StateMachine::
     from fluidity import StateMachine, state, transition
     class MyStateMachine(StateMachine):
 
-		initial_state = 'Carneirinho Branco'
+	initial_state = 'White Sheep'
 
-		state('Carneirinho Branco', enter='teste_entrada1', exit='teste_saida1')
-		state('Carneirinho Preto', enter='teste_entrada2')
-		state('Carneirinho Cinza')
+	state('White Sheep', enter='entry1', exit='exit1')
+	state('Black Sheep', enter='entry2')
+	state('Grey Sheep')
 
-		transition(from_='Carneirinho Branco', event='ficar preto', to='Carneirinho Preto', guard='abc')
-		transition(from_='Carneirinho Preto', event='ficar cinza', to='Carneirinho Cinza')
-		transition(from_='Carneirinho Cinza', event='ficar branco', to='Carneirinho Branco')
+	transition(from_='White Sheep', event='make black', to='Black Sheep', guard='guard1', action='action1')
+	transition(from_='Black Sheep', event='make grey', to='Grey Sheep', action='action2')
+	transition(from_='Grey Sheep', event='make white', to='White Sheep')
