@@ -9,5 +9,5 @@ Basic usage::
 Then, you must get the tests::
     
     initial_state |should_not| be_empty
-	initial_state |should| be(1)
-	initial_state |should| equal_to("White Sheep")
+    initial_state |should| be(1)
+    initial_state |should| equal_to("White Sheep")
