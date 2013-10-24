@@ -7,6 +7,11 @@ class SpecGenerator():
 		self.sm = SMGenerator()
 		self.sm.load_data(data)
 
+	def _header(self):
+		return 'impot unittest\n'+\
+			   'from should_dsl import should, should_not\n'+\
+			   'from statemachine_generator.StateMachine import MyStateMachine\n'
+
 	def create_initial_state_test(self):
 		initial_state = self.sm._get_initial_state()
 		phrase = 'initial_state |should_not| be_empty\n'+\
