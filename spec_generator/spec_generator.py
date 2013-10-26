@@ -16,17 +16,26 @@ class SpecGenerator():
 
     def _header(self):
         return 'impot unittest\n'+\
-               'from should_dsl import should, should_not\n'+\
-               'from fluidity import StateMachine, transition, state\n'
-               'from dia_bldd_modules.statemachine_generator.StateMachine import MyStateMachine\n'
+               'from should_dsl import should\n'+\
+               'from fluidity import StateMachine, transition, state\n'+\
+               'from dia_bldd_modules.statemachine_generator.StateMachine import MyStateMachine\n\n'+\
+               'class FluidityTest(unittest.TestCase):\n\n'+\
+               '\tdef setUp(self):\n'+\
+               '\t\tself.machine = MyStateMachine()\n\n'
 
     def create_initial_state_test(self):
         initial_state = self.sm._get_initial_state()
-        phrase = 'machine = MyStateMachine()\n'+\
-                 'machine.initial_state |should| equal_to("{ini_state}")\n'+\
-                 'machine.current_state |should| equal_to("{ini_state}")\n'.format(ini_state=initial_state, ini_state=initial_state)
+        phrase = 'def test_it_has_an_initial_state(self):\n'+\
+                 '\tself.machine.initial_state |should| equal_to("{ini_state}")\n'.format(ini_state=initial_state)+\
+                 '\tself.machine.current_state |should| equal_to("{ini_state}")\n'.format(ini_state=initial_state)
         return phrase
 
     def create_states_test(self):
-        states = self.sm_get_states()
-        
+        states = self.sm._get_states()
+        states_name = []
+        for state in states:
+            states_name.append(state["state"])
+        phrase = 'def test_it_defines_states_using_method_calls(self):\n'+\
+                 '\tself.machine |should| have(3).states\n'+\
+                 '\tself.machine.states() |should| include_all_of({states_list})'.format(states_list=states_name)
+        return phrase
