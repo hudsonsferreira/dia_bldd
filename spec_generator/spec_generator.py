@@ -7,6 +7,13 @@ class SpecGenerator():
         self.sm = SMGenerator()
         self.sm.load_data(data)
 
+    def _load_fluidity(self):
+        content = ''
+        fluidity = open('/home/hudson/.dia/python/dia_bldd_modules/statemachine_generator/StateMachine.py', 'r')
+        for line in fluidity.read():
+            content += line
+        return content
+
     def _header(self):
         return 'impot unittest\n'+\
                'from should_dsl import should, should_not\n'+\
