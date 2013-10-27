@@ -17,8 +17,8 @@ class SpecGenerator():
     def _header(self):
         return 'impot unittest\n'+\
                'from should_dsl import should\n'+\
-               'from fluidity import StateMachine, transition, state\n'+\
                'from dia_bldd_modules.statemachine_generator.StateMachine import MyStateMachine\n\n'+\
+               self._load_fluidity() + '\n\n'+\
                'class FluidityTest(unittest.TestCase):\n\n'+\
                '\tdef setUp(self):\n'+\
                '\t\tself.machine = MyStateMachine()\n\n'
