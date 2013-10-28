@@ -36,6 +36,6 @@ class SpecGenerator():
         for state in states:
             states_name.append(state["state"])
         phrase = 'def test_it_defines_states_using_method_calls(self):\n'+\
-                 '\tself.machine |should| have(3).states\n'+\
+                 '\tself.machine |should| have({total}).states\n'.format(total=len(states_name))+\
                  '\tself.machine.states() |should| include_all_of({states_list})'.format(states_list=states_name)
         return phrase
