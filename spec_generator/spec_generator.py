@@ -38,8 +38,7 @@ class SpecGenerator():
         transitions_name = []
         phrase = '\n\n\tdef test_its_declaration_creates_a_method_with_its_name(self):\n'
         for transition in transitions:
-            phrase += '\t\tself.machine |should| respond_to("{transition_name}")\n'
-            phrase.format(transition_name=transition["event"])
+            phrase += '\t\tself.machine |should| respond_to("{transition_name}")\n'.format(transition_name=transition["event"])
         return phrase
 
     def create_action_test(self):
