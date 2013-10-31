@@ -80,17 +80,21 @@ class SMGenerator():
         states = self._get_states()
         transitions = self._get_transitions()
         methods_content = ""
-        phrase = "\n\tdef {word}(self): pass"
+        phrase = "\n\tdef {word}(self): "
         for state in states:
             if state["enter"] != "":
                 methods_content += phrase.format(word=state["enter"])
+                methods_content += "pass"
             if state["exit"] != "":
                 methods_content += phrase.format(word=state["exit"])
+                methods_content += "pass"
         for transition in transitions:
             if transition["guard"] != "":
                 methods_content += phrase.format(word=transition["guard"])
+                methods_content += "return True"
             if transition["action"] != "":
                 methods_content += phrase.format(word=transition["action"])
+                methods_content += "pass"
         return methods_content
 
 
@@ -103,5 +107,5 @@ class SMGenerator():
 
     def create_fluidity(self):
         content = self._generate_statemachine()
-        with open('StateMachine.py', 'w') as fluidity:
+        with open('/home/hudson/.dia/python/dia_bldd/resources/StateMachine.py', 'w') as fluidity:
             fluidity.write(content)
