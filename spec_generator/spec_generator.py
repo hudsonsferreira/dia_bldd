@@ -1,4 +1,4 @@
-from dia_bldd_modules.statemachine_generator.sm_generator import SMGenerator
+from dia_bldd.statemachine_generator.sm_generator import SMGenerator
 
 class SpecGenerator():
 
@@ -10,7 +10,7 @@ class SpecGenerator():
     def _header(self):
         return 'import unittest\n'+\
                'from should_dsl import should\n'+\
-               'from dia_bldd_modules.statemachine_generator.StateMachine import MyStateMachine\n\n'+\
+               'from StateMachine import MyStateMachine\n\n'+\
                'class FluidityTest(unittest.TestCase):\n\n'+\
                '\tdef setUp(self):\n'+\
                '\t\tself.machine = MyStateMachine()\n'
@@ -29,8 +29,7 @@ class SpecGenerator():
             states_name.append(state["state"])
         phrase = '\n\tdef test_it_defines_states_using_method_calls(self):\n'+\
                  '\t\tself.machine |should| have({total}).states\n'.format(total=len(states_name))+\
-                 '\t\tself.machine.states() |should| include_all_of({states_list})'
-        phrase.format(states_list=states_name)
+                 '\t\tself.machine.states() |should| include_all_of({states_list})'.format(states_list=states_name)
         return phrase
 
     def create_transition_respond_test(self):
@@ -60,5 +59,5 @@ class SpecGenerator():
 
     def create_test_file(self):
         content = self.generate_content()
-        with open('TestStateMachine.py', 'w') as test_file:
+        with open('/home/hudson/.dia/python/dia_bldd/resources/TestStateMachine.py', 'w') as test_file:
             test_file.write(content)
