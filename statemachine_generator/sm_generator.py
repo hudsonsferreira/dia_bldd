@@ -72,13 +72,33 @@ class SMGenerator():
             if transition["action"] != "":
                 transition_content += "', action='"+transition["action"]
             transition_content +="')"
+        transition_content += "\n"
         return transition_content
+
+
+    def _generate_fluidity_methods(self):
+        states = self._get_states()
+        transitions = self._get_transitions()
+        methods_content = ""
+        phrase = "\n\tdef {word}(self): pass"
+        for state in states:
+            if state["enter"] != "":
+                methods_content += phrase.format(word=state["enter"])
+            if state["exit"] != "":
+                methods_content += phrase.format(word=state["exit"])
+        for transition in transitions:
+            if transition["guard"] != "":
+                methods_content += phrase.format(word=transition["guard"])
+            if transition["action"] != "":
+                methods_content += phrase.format(word=transition["action"])
+        return methods_content
 
 
     def _generate_statemachine(self):
         content = self.header
         content += self._generate_state()
         content += self._generate_transition()
+        content += self._generate_fluidity_methods()
         return content
 
     def create_fluidity(self):
