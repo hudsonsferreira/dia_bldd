@@ -2,12 +2,39 @@ Generates unit tests
 
 Basic usage::
 
-    from dia_bldd_modules.spec_generator.spec_generator import SpecGenerator 
+    from dia_bldd.spec_generator.spec_generator import SpecGenerator 
     sg = SpecGenerator(dia.diagrams()[0].data)#index represents an opened diagram on Dia
-    sg.create_initial_state_test()
+    sg.create_test_file()
 
 Then, you must get the tests::
     
-    initial_state |should_not| be_empty
-    initial_state |should| be(1)
-    initial_state |should| equal_to("White Sheep")
+	import unittest
+	from should_dsl import should
+	from StateMachine import MyStateMachine
+
+	class FluidityTest(unittest.TestCase):
+
+		def setUp(self):
+			self.machine = MyStateMachine()
+
+		def test_it_has_an_initial_state(self):
+			self.machine.initial_state |should| equal_to("White Sheep")
+			self.machine.current_state |should| equal_to("White Sheep")
+
+		def test_it_defines_states_using_method_calls(self):
+			self.machine |should| have(3).states
+			self.machine.states() |should| include_all_of(['White Sheep', 'Black Sheep', 'Grey Sheep'])
+
+		def test_its_declaration_creates_a_method_with_its_name(self):
+			self.machine |should| respond_to("make_black")
+			self.machine |should| respond_to("make_grey")
+			self.machine |should| respond_to("make_white")
+
+		def test_it_changes_machine_state(self):
+			self.machine.current_state |should| equal_to("White Sheep")
+			self.machine.make_black()
+			self.machine.current_state |should| equal_to("Black Sheep")
+			self.machine.make_grey()
+			self.machine.current_state |should| equal_to("Grey Sheep")
+			self.machine.make_white()
+			self.machine.current_state |should| equal_to("White Sheep")
